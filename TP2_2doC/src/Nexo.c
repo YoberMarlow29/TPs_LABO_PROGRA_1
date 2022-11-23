@@ -9,13 +9,23 @@ eJugador NEX_pedirDatosJugador(eConfederacion listaConfederacion[],int tamConfed
 	eJugador aux;
 
 	aux.idJugador=idAutoIncremental();
+
+	printf("\nid=%d",aux.idJugador);
 	utn_getDescripcion(aux.nombre, TAM_NOMBRE,"\nIngrese el nombre del jugador: ", "\nERROR.Ingrese nuevamente el nombre del jugador: ", 5);
-	utn_getNombre(aux.posicion, TAM_POSICION, "\nIngrese la posicion del jugador: ", "\nERROR.Ingrese nuevamente la posicion del jugador: ", 5);
+
+	utn_getNombre(aux.posicion, TAM_POSICION, "\nIngrese la posicion del jugador: (Arquero-Defensor-MedioCampista-Delantero)", "\nERROR.Ingrese nuevamente la posicion del jugador: (Arquero-Defensor-MedioCampista-Delantero)", 5);
+
 	utn_getNumeroShort(&aux.numeroCamiseta, "\nIngrese el numero de camiseta del jugador: ", "\nERROR.Ingrese nuevamente el numero de camiseta del jugador: ", 1, 126, 5);
+
 	CONF_MostrarListaTipo(listaConfederacion, tamConfederacion);
+
 	utn_getNumero(&aux.idConfederacion, "\nIngrese el id de confederacion del jugador: ", "\nERROR.Ingrese nuevamente el id de confederacion del jugador: ", 100, 105, 5);
+
 	utn_getNumeroFlotante(&aux.salario, "\nIngrese el salario del jugador: ", "\nERROR.Ingrese nuevamente el salario del jugador: ", 0, 9999999, 5);
+
+
 	utn_getNumeroShort(&aux.aniosContrato, "\nIngrese los años de contratacion del jugador: ", "\nERROR.Ingrese nuevamente los años de contratacion del jugador: ", 1, 126, 5);
+
 	aux.isEmpty=OCUPADO;
 
 	return aux;
@@ -28,7 +38,7 @@ void NEX_mostrarTodoJugadorConfederacion(eJugador listaJugador[],int tamJugador,
 			"|ID   |NOMBRE                  |POSICION       |N° CAMISETA    |SUELDO              |CONFEDERACION            |AÑOS DE CONTRATO  |\n"
 			"==================================================================================================================================\n");
 
-	if(listaJugador !=NULL&&tamJugador>0)
+	if(listaJugador != NULL && tamJugador>0)
 	{
 		for(int i=0;i<tamJugador;i++)
 		{
@@ -41,7 +51,6 @@ void NEX_mostrarTodoJugadorConfederacion(eJugador listaJugador[],int tamJugador,
 						listaJugador[i].numeroCamiseta,
 						listaJugador[i].salario,
 						listaConfederacion[confederacion].region,
-
 						listaJugador[i].aniosContrato);
 
 			}
@@ -55,7 +64,7 @@ void NEX_mostrarTodoJugadorConfederacion(eJugador listaJugador[],int tamJugador,
 int NEX_altaJugador(eJugador listaJugador[],int tamJugador, eConfederacion listaConfederacion[],int tamConfederacion)
 {
 	int retorno;
-	int posicionLibre;
+	int posicionLibre=0;
 
 	eJugador jugadorUno;
 
@@ -64,8 +73,8 @@ int NEX_altaJugador(eJugador listaJugador[],int tamJugador, eConfederacion lista
 	if(listaJugador !=NULL&&tamJugador > 0){
 
 		posicionLibre= JUG_buscarIndiceLibre(listaJugador, tamJugador);
-
 		jugadorUno =NEX_pedirDatosJugador(listaConfederacion, tamConfederacion);
+
 
 		if(posicionLibre!=-1){
 
@@ -82,7 +91,7 @@ int NEX_baja(eJugador listaJugador[], int tamJugador,eConfederacion listaConfede
 	int idIngresado;
 
 	NEX_mostrarTodoJugadorConfederacion(listaJugador, tamJugador, listaConfederacion, tamConfederacion);
- 	idIngresado = UTN_pedirEnteroRango("\nSeleccion un id de jugador a bajar: ", 1, 3000);
+ 	idIngresado = UTN_pedirEnteroRango("\nSeleccion un id de jugador a bajar: ", 0, 3000);
 
 
 	for(int i=0; i<tamJugador; i++)
@@ -105,7 +114,7 @@ int NEX_modificar(eJugador listaJugador[ ], int tamJugador, eConfederacion lista
 	int jugadorBuscado;
 
 	NEX_mostrarTodoJugadorConfederacion(listaJugador, tamJugador, listaConfederacion, tamConfederacion);
- 	idIngresado = UTN_pedirEnteroRango("\nSeleccion un id a modificar: ", -1, 5000);
+ 	idIngresado = UTN_pedirEnteroRango("\nSeleccion un id a modificar: ", 0, 5000);
  	jugadorBuscado=JUG_buscarJugador(listaJugador, tamJugador, idIngresado);
 
 
@@ -221,32 +230,31 @@ void ImpresionOrdenada(eJugador listaJugador[],int tamJugador, eConfederacion li
 
 
 }
-void NEX_listadoOrdenamientoDobleCriterio(eJugador listaJugador[], int tamJugador, eConfederacion listaConfederacion[], int tamConfederacion)
+void NEX_listadoOrdenamientoDobleCriterio(eJugador listaJugador[], int tamJugador, eConfederacion listaConfederacion[], int tamConfederacion, int tamTotal)
 {
 	eJugador auxJugador;
 	int confederacionI;
 	int confederacionJ;
 
-	for(int i=0;i<tamJugador;i++)
-	{
-		for(int j=i+1;j<=tamJugador;j++)
-		{
-			confederacionI=CONF_buscarConfederacion(listaConfederacion, tamConfederacion, listaJugador[i].idConfederacion);
-			confederacionJ=CONF_buscarConfederacion(listaConfederacion, tamConfederacion, listaJugador[j].idConfederacion);
-			if(strcmp(listaJugador[i].nombre,listaJugador[j].nombre)>0 &&
-					strcmp(listaConfederacion[confederacionI].nombre,
-							listaConfederacion[confederacionJ].nombre)>0)
+	if(tamTotal>1){
+		for(int i=0;i<tamTotal;i++)
 			{
+				for(int j=i+1;j<=tamTotal-1;j++)
+				{
+					confederacionI=CONF_buscarConfederacion(listaConfederacion, tamConfederacion, listaJugador[i].idConfederacion);
+					confederacionJ=CONF_buscarConfederacion(listaConfederacion, tamConfederacion, listaJugador[j].idConfederacion);
+					if(	strcmp(listaConfederacion[confederacionI].nombre,listaConfederacion[confederacionJ].nombre)>0 ||
+							(confederacionI == confederacionJ && strcmp(listaJugador[i].nombre,listaJugador[j].nombre)>0))
+					{
+						auxJugador= listaJugador[i];
+						listaJugador[i]= listaJugador[j];
+						listaJugador[j]=auxJugador;
+					}
 
-				auxJugador= listaJugador[i];
-				listaJugador[i]= listaJugador[j];
-				listaJugador[j]=auxJugador;
 
-		}
+				}
 
-
-		}
-
+			}
 	}
 
 	ImpresionOrdenada(listaJugador, tamJugador, listaConfederacion, tamConfederacion);
@@ -411,24 +419,34 @@ void NEX_regionMasJugadores(eJugador listaJugador[],int tamJugador, eConfederaci
 }
 void NEX_jugadoresListadoPorConfederacion(eJugador listaJugador[],int tamJugador, eConfederacion listaConfederacion[], int tamConfederacion)
 {
-	int idIngresado;
-	CONF_MostrarListaTipo(listaConfederacion, tamConfederacion);
- 	idIngresado = UTN_pedirEnteroRango("\nSeleccion el id de la confederacion, para que sus jugadores sea mostrados: ", 100, 105);
-	printf( "========================================================================================================\n"
-			"|ID   |NOMBRE                  |POSICION       |N° CAMISETA    |SUELDO              |AÑOS DE CONTRATO  |\n"
-			"========================================================================================================\n");
 	for(int i=0; i<tamConfederacion; i++)
 	{
-		for(int j=0; j<tamJugador; j++)
-		{
-			if(idIngresado==listaJugador[j].idConfederacion&&idIngresado == listaConfederacion[i].idCondefederacion)
-			{
-				JUG_mostrarUno(listaJugador[j]);
-			}
-		}
+		printf("\nListado de jugadores de la confederacion- %s",listaConfederacion[i].nombre);
+		NEX_mostrarListaXConfederacion(listaJugador,tamJugador, listaConfederacion[i].idCondefederacion);
+
+		printf("\n=======================================================================================================\n");
+
 
 	}
-	printf("\n=======================================================================================================");
+
+}
+void NEX_mostrarListaXConfederacion(eJugador listaJugador[],int tamJugador, int idConfederacion)
+{
+	printf( "\n========================================================================================================\n"
+			"|ID   |NOMBRE                  |POSICION       |N° CAMISETA    |SUELDO              |AÑOS DE CONTRATO  |\n"
+			"========================================================================================================\n");
+	for(int i=0; i<tamJugador; i++)
+	{
+		if(listaJugador[i].idConfederacion==idConfederacion)
+		{
+			printf("\n|%-5d|%-24s|%-15s|%-15d|%-20.2f|%-18d|",listaJugador[i].idJugador,
+									listaJugador[i].nombre,
+									listaJugador[i].posicion,
+									listaJugador[i].numeroCamiseta,
+									listaJugador[i].salario,
+									listaJugador[i].aniosContrato);
+		}
+	}
 
 }
 void NEX_porcentajePorConfederacion(eJugador listaJugador[],int tamJugador,int contadorJugadorTotal)
@@ -455,6 +473,7 @@ void NEX_porcentajePorConfederacion(eJugador listaJugador[],int tamJugador,int c
 	contadorJugadorConcacaf=contarJugadoresEnConfederacion(listaJugador, tamJugador, 104);
 	contadorJugadorOfc=contarJugadoresEnConfederacion(listaJugador, tamJugador, 105);
 
+
 	porcentajeConmbeol= calculoPorcentaje(contadorJugadorConmebol, contadorJugadorTotal);
 	porcentajeUefa= calculoPorcentaje(contadorJugadorUefa, contadorJugadorTotal);
 	porcentajeAfc= calculoPorcentaje(contadorJugadorAfc, contadorJugadorTotal);
@@ -472,3 +491,4 @@ void NEX_porcentajePorConfederacion(eJugador listaJugador[],int tamJugador,int c
 
 
 }
+

@@ -11,6 +11,7 @@ float sumaTotal(eJugador listaJugador[],int tamJugador)
 			sumatoria+=listaJugador[i].salario;
 
 		}
+
 	}
 
 	return sumatoria;
@@ -28,9 +29,16 @@ float promedioPorJugador(eJugador listaJugador[],int tamJugador)
 			contador++;
 
 		}
-	}
 
-	promedio=sumaTotal(listaJugador, tamJugador)/contador;
+	}
+	if(contador>0){
+		promedio=sumaTotal(listaJugador, tamJugador)/contador;
+
+	}
+	else
+	{
+		promedio=0;
+	}
 
 	return promedio;
 }

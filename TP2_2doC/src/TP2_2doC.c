@@ -38,6 +38,7 @@ int main(void)
 					printf("\t\t***** ALTA DE JUGADOR *****\n");
 					if((NEX_altaJugador(listaJugador, MAX_JUGADOR, listaConfederacion, MAX_CONF))!=-1)
 					{
+
 						contadorJugadorTotal++;
 						flagAvanzar=1;
 					}
@@ -45,7 +46,6 @@ int main(void)
 					{
 						printf("Carga de jugador con exito");
 					}
-
 					break;
 				case 2:
 					printf("\t\t***** BAJA DE JUGADOR *****\n");
@@ -110,7 +110,7 @@ int main(void)
 									switch(opcionInforme)
 									{
 										case 1:
-											NEX_listadoOrdenamientoDobleCriterio(listaJugador, MAX_JUGADOR, listaConfederacion, MAX_CONF);
+											NEX_listadoOrdenamientoDobleCriterio(listaJugador, MAX_JUGADOR, listaConfederacion, MAX_CONF,contadorJugadorTotal);
 											break;
 										case 2:
 											NEX_jugadoresListadoPorConfederacion(listaJugador, MAX_JUGADOR, listaConfederacion, MAX_CONF);

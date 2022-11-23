@@ -58,7 +58,7 @@ void ImpresionOrdenada(eJugador listaJugador[],int tamJugador, eConfederacion li
 /// @param tamJugador tamaño de la lista de jugadores.
 /// @param listaConfederacion lista de las confederaciones.
 /// @param tamConfederacion tamaño de la lista de las confederaciones.
-void NEX_listadoOrdenamientoDobleCriterio(eJugador listaJugador[], int tamJugador, eConfederacion listaConfederacion[], int tamConfederacion);
+void NEX_listadoOrdenamientoDobleCriterio(eJugador listaJugador[], int tamJugador, eConfederacion listaConfederacion[], int tamConfederacion, int tamTotal);
 /// @brief Muestra el salario de los jugadores.
 ///
 /// @param listaJugador lista de los jugadores.
@@ -91,6 +91,8 @@ void NEX_jugadoresListadoPorConfederacion(eJugador listaJugador[],int tamJugador
 /// @param tamJugador tamaño de la lista de jugadores.
 /// @param contadorJugadorTotal numero de jugadores ingresados a traves del alta.
 void NEX_porcentajePorConfederacion(eJugador listaJugador[],int tamJugador,int contadorJugadorTotal);
+void NEX_mostrarListaXConfederacion(eJugador listaJugador[],int tamJugador, int idConfederacion);
+
 
 
 
